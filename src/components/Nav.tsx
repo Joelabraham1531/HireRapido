@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, Globe2, Menu, X } from "lucide-react";
-import hireRapidoLogo from "@/assets/hire-rapido-logo.jpg";
-
+import hireRapidoLogo from "/assets/hire-rapido-new-logo.jpg";
 const navTextEs: Record<string, string> = {
   "Find a Hire": "Encontrar talento",
   "How It Works": "Cómo funciona",
@@ -413,9 +412,33 @@ export function Nav() {
           scrolled ? "shadow-elev" : ""
         }`}
       >
-        <Link to={localizedPath("/")} className="flex shrink-0 items-center rounded-xl px-1.5 py-1">
-          <img src={hireRapidoLogo} alt="HireRapido" className="h-11 w-auto object-contain sm:h-12 lg:h-14" />
-        </Link>
+       <Link
+  to={localizedPath("/")}
+  className="flex shrink-0 items-center gap-2.5 rounded-xl px-1.5 py-1 sm:gap-3"
+>
+  <img
+    src={hireRapidoLogo}
+    alt="Hire Rápido"
+    className="h-11 w-auto object-contain sm:h-12 lg:h-14"
+  />
+
+  <div
+    className="flex items-center whitespace-nowrap italic leading-none"
+    style={{
+      fontFamily: '"Arial Black", "Arial", sans-serif',
+      fontWeight: 900,
+      letterSpacing: "-0.055em",
+    }}
+  >
+    <span className="text-[17px] text-[#001A3A] sm:text-[20px] lg:text-[23px]">
+      Hire
+    </span>
+
+    <span className="text-[17px] text-[#FF5A00] sm:text-[20px] lg:text-[23px]">
+      Rápido
+    </span>
+  </div>
+</Link>
 
         <nav className="hidden items-center rounded-2xl border border-border/80 bg-white/70 p-1 text-sm font-semibold lg:flex">
           <div className="relative" onMouseEnter={openMega} onMouseLeave={closeMega}>
