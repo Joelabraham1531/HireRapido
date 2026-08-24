@@ -1,0 +1,710 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.15 0.02 280);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.02 280);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 280);
+  --primary: oklch(0.15 0.02 280);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0.01 300);
+  --secondary-foreground: oklch(0.15 0.02 280);
+  --muted: oklch(0.97 0.01 300);
+  --muted-foreground: oklch(0.45 0.02 280);
+  --accent: oklch(0.97 0.02 340);
+  --accent-foreground: oklch(0.15 0.02 280);
+  --destructive: oklch(0.6 0.24 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.01 300);
+  --input: oklch(0.92 0.01 300);
+  --ring: oklch(0.7 0.15 330);
+
+  --brand-gold: oklch(0.7 0.15 70);
+  --brand-orange: oklch(0.75 0.19 55);
+  --brand-yellow: oklch(0.86 0.17 90);
+  --brand-black: oklch(0.15 0.02 280);
+
+  --gradient-brand: linear-gradient(90deg, oklch(0.7 0.15 70), oklch(0.75 0.19 55), oklch(0.86 0.17 90));
+  --gradient-brand-soft: linear-gradient(135deg, oklch(0.97 0.05 70), oklch(0.98 0.04 80));
+  --shadow-soft: 0 20px 60px -20px oklch(0.7 0.15 70 / 0.25);
+  --shadow-card: 0 10px 40px -12px oklch(0.15 0.02 280 / 0.12);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    box-sizing: border-box;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .text-gradient-brand {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-gradient-brand {
+    background: var(--gradient-brand);
+  }
+  .bg-gradient-soft {
+    background: var(--gradient-brand-soft);
+  }
+  .shadow-brand {
+    box-shadow: var(--shadow-soft);
+  }
+  .shadow-elev {
+    box-shadow: var(--shadow-card);
+  }
+
+  /* CSS variable bridge for Tailwind v3 */
+  .bg-background { background-color: var(--background); }
+  .bg-card { background-color: var(--card); }
+  .bg-muted { background-color: var(--muted); }
+  .bg-foreground { background-color: var(--foreground); }
+  .bg-primary { background-color: var(--primary); }
+  .text-foreground { color: var(--foreground); }
+  .text-muted-foreground { color: var(--muted-foreground); }
+  .text-primary-foreground { color: var(--primary-foreground); }
+  .text-card-foreground { color: var(--card-foreground); }
+  .text-brand-gold { color: var(--brand-gold); }
+  .text-brand-orange { color: var(--brand-orange); }
+  .text-brand-yellow { color: var(--brand-yellow); }
+  .border-border { border-color: var(--border); }
+}
+
+/* Screenshot-inspired HireRapido visual system.
+   The existing HireRapido brand colors above are intentionally unchanged. */
+@layer components {
+  .site-shell {
+    position: relative;
+    isolation: isolate;
+    background:
+      linear-gradient(rgba(228, 232, 238, 0.34) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(228, 232, 238, 0.34) 1px, transparent 1px),
+      #fbfcfe;
+    background-size: 56px 56px;
+  }
+  .site-shell::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 54% 8%, oklch(0.86 0.17 90 / 0.12), transparent 31rem),
+      radial-gradient(circle at 72% 26%, oklch(0.75 0.19 55 / 0.07), transparent 28rem);
+  }
+  .portal-hero,
+  .route-hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 54% 42%, oklch(0.86 0.17 90 / 0.22), transparent 29rem),
+      radial-gradient(circle at 68% 30%, oklch(0.75 0.19 55 / 0.09), transparent 23rem),
+      linear-gradient(rgba(226, 231, 238, 0.54) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(226, 231, 238, 0.54) 1px, transparent 1px),
+      rgba(251, 252, 254, 0.98);
+    background-size: auto, auto, 56px 56px, 56px 56px, auto;
+    border-bottom: 1px solid rgba(226, 231, 238, 0.8);
+  }
+  .portal-shell {
+    width: min(100% - 2rem, 78rem);
+    margin-inline: auto;
+  }
+  .portal-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    border: 1px solid rgba(226, 231, 238, 0.95);
+    border-radius: 999px;
+    background: rgba(255,255,255,.84);
+    padding: .52rem .8rem;
+    box-shadow: 0 10px 30px -22px rgba(15,23,42,.45);
+    backdrop-filter: blur(14px);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+  }
+  .portal-panel,
+  .portal-card {
+    border: 1px solid rgba(221, 226, 233, 0.96);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 22px 70px -42px rgba(23, 30, 45, 0.42);
+    backdrop-filter: blur(12px);
+  }
+  .portal-panel { border-radius: 2.25rem; }
+  .portal-card { border-radius: 1.7rem; }
+  .portal-card-hover { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .portal-card-hover:hover {
+    transform: translateY(-4px);
+    border-color: oklch(0.75 0.19 55 / .34);
+    box-shadow: 0 30px 75px -40px oklch(0.7 0.15 70 / .32);
+  }
+  .portal-searchbar {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    border: 1px solid rgba(222, 227, 234, .98);
+    border-radius: 1.45rem;
+    background: rgba(255,255,255,.96);
+    padding: .5rem;
+    box-shadow: 0 18px 50px -32px rgba(15,23,42,.44);
+  }
+  .portal-search-segment {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    align-items: center;
+    gap: .6rem;
+    padding: .8rem 1rem;
+    color: var(--muted-foreground);
+    font-size: .82rem;
+    font-weight: 650;
+  }
+  .portal-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(222, 227, 234, .98);
+    border-radius: 999px;
+    background: rgba(255,255,255,.78);
+    padding: .48rem .85rem;
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--muted-foreground);
+    transition: border-color .2s ease, color .2s ease, background .2s ease;
+  }
+  .portal-chip:hover {
+    border-color: oklch(0.75 0.19 55 / .38);
+    color: var(--brand-orange);
+    background: rgba(255,255,255,.98);
+  }
+  .portal-section {
+    position: relative;
+    padding-block: 6.5rem;
+    border-bottom: 1px solid rgba(226,231,238,.72);
+    background: rgba(251,252,254,.88);
+  }
+  .portal-section-grid {
+    background:
+      linear-gradient(rgba(229, 233, 239, .42) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(229, 233, 239, .42) 1px, transparent 1px),
+      rgba(251,252,254,.92);
+    background-size: 56px 56px;
+  }
+  .portal-tint {
+    background:
+      radial-gradient(circle at 68% 38%, oklch(0.86 0.17 90 / .14), transparent 26rem),
+      linear-gradient(rgba(229, 233, 239, .42) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(229, 233, 239, .42) 1px, transparent 1px),
+      rgba(251,252,254,.96);
+    background-size: auto, 56px 56px, 56px 56px, auto;
+  }
+  .portal-badge-dark {
+    border-radius: 1rem;
+    background: var(--foreground);
+    color: white;
+    box-shadow: 0 18px 50px -24px rgba(15,23,42,.65);
+  }
+  .portal-photo-frame {
+    position: relative;
+    border: 7px solid rgba(255,255,255,.94);
+    border-radius: 2.3rem;
+    background: white;
+    box-shadow: 0 34px 90px -44px rgba(15,23,42,.55);
+  }
+  .portal-mega {
+    border: 1px solid rgba(221,226,233,.96);
+    background:
+      radial-gradient(circle at 84% 12%, oklch(0.86 0.17 90 / .12), transparent 20rem),
+      linear-gradient(rgba(235,238,243,.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(235,238,243,.35) 1px, transparent 1px),
+      rgba(255,255,255,.97);
+    background-size: auto, 44px 44px, 44px 44px, auto;
+    box-shadow: 0 30px 80px -34px rgba(15,23,42,.45);
+    backdrop-filter: blur(18px);
+  }
+  .portal-nav-shell {
+    border: 1px solid rgba(221,226,233,.94);
+    background: rgba(255,255,255,.92);
+    box-shadow: 0 14px 45px -32px rgba(15,23,42,.38);
+    backdrop-filter: blur(16px);
+  }
+}
+
+@layer utilities {
+  .site-shell .route-hero {
+    background:
+      radial-gradient(circle at 54% 42%, oklch(0.86 0.17 90 / 0.22), transparent 29rem),
+      radial-gradient(circle at 68% 30%, oklch(0.75 0.19 55 / 0.09), transparent 23rem),
+      linear-gradient(rgba(226, 231, 238, 0.54) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(226, 231, 238, 0.54) 1px, transparent 1px),
+      rgba(251, 252, 254, 0.98) !important;
+    background-size: auto, auto, 56px 56px, 56px 56px, auto !important;
+  }
+}
+
+.site-shell [class*="bg-white"][class*="rounded-2xl"][class*="border"],
+.site-shell [class*="bg-white"][class*="rounded-3xl"][class*="border"] {
+  border-color: rgba(221, 226, 233, 0.96);
+  box-shadow: 0 22px 70px -42px rgba(23, 30, 45, 0.42);
+}
+.site-shell [class*="bg-white/80"][class*="rounded-3xl"],
+.site-shell [class*="bg-white/70"][class*="rounded-[2rem]"] {
+  border-color: rgba(221, 226, 233, 0.96);
+  box-shadow: 0 24px 72px -42px rgba(23, 30, 45, 0.45);
+}
+.site-shell .route-hero h1 {
+  letter-spacing: -0.045em;
+  line-height: 1.03;
+}
+@media (max-width: 767px) {
+  .portal-searchbar { flex-direction: column; align-items: stretch; border-radius: 1.5rem; }
+  .portal-search-segment { width: 100%; }
+  .portal-section { padding-block: 4.5rem; }
+}
+
+/* Animated layout pass: preserves HireRapido's original brand palette and content. */
+@keyframes hrFloatA {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.4deg); }
+  50% { transform: translate3d(0, -12px, 0) rotate(0.7deg); }
+}
+@keyframes hrFloatB {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0.5deg); }
+  50% { transform: translate3d(0, 10px, 0) rotate(-0.7deg); }
+}
+@keyframes hrPhotoBreath {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.008); }
+}
+@keyframes hrPing {
+  0% { transform: scale(.7); opacity: .95; box-shadow: 0 0 0 0 oklch(0.75 0.19 55 / .38); }
+  70% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 18px oklch(0.75 0.19 55 / 0); }
+  100% { transform: scale(.7); opacity: .95; box-shadow: 0 0 0 0 oklch(0.75 0.19 55 / 0); }
+}
+@keyframes hrRoleIn {
+  from { opacity: 0; transform: translateY(18px) scale(.985); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes hrFaqIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hrGlowDrift {
+  0%, 100% { transform: translate3d(-3%, 0, 0) scale(1); opacity: .55; }
+  50% { transform: translate3d(7%, 2%, 0) scale(1.08); opacity: .8; }
+}
+@keyframes hrMegaIn {
+  from { opacity: 0; transform: translate(-50%, -8px) scale(.985); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+.portal-mega {
+  transform-origin: top center;
+  animation: hrMegaIn .22s cubic-bezier(.16,1,.3,1) both;
+}
+
+.hero-layout {
+  position: relative;
+}
+.hero-layout::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(42vw, 34rem);
+  aspect-ratio: 1;
+  right: -5rem;
+  top: 9%;
+  border-radius: 999px;
+  background: radial-gradient(circle, oklch(0.86 0.17 90 / .18), transparent 68%);
+  filter: blur(8px);
+  animation: hrGlowDrift 8s ease-in-out infinite;
+}
+.hero-copy {
+  position: relative;
+  z-index: 2;
+}
+.hero-stage {
+  perspective: 1200px;
+}
+.hero-visual {
+  transform-style: preserve-3d;
+}
+.hero-main-photo {
+  animation: hrPhotoBreath 7s ease-in-out infinite;
+}
+.float-card-a { animation: hrFloatA 5.8s ease-in-out infinite; }
+.float-card-b { animation: hrFloatB 6.8s ease-in-out .35s infinite; }
+.float-card-c { animation: hrFloatA 6.4s ease-in-out .7s infinite; }
+.float-card-d { animation: hrFloatB 7.4s ease-in-out .15s infinite; }
+
+.portal-card,
+.portal-panel {
+  will-change: transform;
+}
+.portal-card-hover {
+  position: relative;
+  overflow: hidden;
+}
+.portal-card-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 24%, rgba(255,255,255,.52) 48%, transparent 72%);
+  transform: translateX(-140%);
+  transition: transform .75s cubic-bezier(.16,1,.3,1);
+}
+.portal-card-hover:hover::after {
+  transform: translateX(140%);
+}
+
+/* Talent section: one featured profile plus a clean three-card row. */
+.talent-layout {
+  align-items: stretch;
+}
+@media (min-width: 1024px) {
+  .talent-card-0 {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+    grid-template-rows: auto auto auto auto 1fr auto;
+    column-gap: 2rem;
+    align-items: start;
+    padding: 1.25rem;
+  }
+  .talent-card-0 > .relative {
+    grid-column: 1;
+    grid-row: 1 / 8;
+    height: 100%;
+    min-height: 360px;
+  }
+  .talent-card-0 > .relative img {
+    height: 100%;
+    min-height: 360px;
+  }
+  .talent-card-0 > *:not(.relative) {
+    grid-column: 2;
+  }
+  .talent-card-0 > h3 { margin-top: .55rem; font-size: 1.75rem; }
+  .talent-card-0 > button { margin-top: 1rem; }
+}
+
+/* Time-zone section becomes a 3-part editorial strip with a visual map. */
+.timezone-layout > h2 {
+  position: relative;
+  z-index: 2;
+}
+.timezone-layout > div:not(.timezone-map-card) {
+  position: relative;
+  z-index: 2;
+}
+.timezone-map-card {
+  min-height: 300px;
+  transform: rotate(1.3deg);
+  transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease;
+}
+.timezone-map-card:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow: 0 34px 80px -40px oklch(0.7 0.15 70 / .36);
+}
+.map-ping {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border: 3px solid white;
+  border-radius: 999px;
+  background: var(--brand-orange);
+  animation: hrPing 2.4s ease-out infinite;
+}
+.map-ping-1 { left: 38%; top: 38%; }
+.map-ping-2 { left: 51%; top: 52%; animation-delay: .75s; }
+.map-ping-3 { left: 58%; top: 68%; animation-delay: 1.4s; }
+@media (min-width: 1024px) {
+  .timezone-layout > h2 { grid-column: span 4; }
+  .timezone-layout > div:not(.timezone-map-card) { grid-column: span 4; }
+  .timezone-map-card { grid-column: span 4; }
+}
+
+/* Case studies: editorial bento rather than three equal cards. */
+@media (min-width: 768px) {
+  .case-card-0 { grid-column: span 7; grid-row: span 2; }
+  .case-card-1, .case-card-2 { grid-column: span 5; }
+  .case-card-0 > img { height: 100%; min-height: 500px; }
+  .case-card-0 { position: relative; }
+  .case-card-0 > div {
+    position: absolute;
+    inset: auto 1rem 1rem 1rem;
+    border-radius: 1.35rem;
+    background: rgba(255,255,255,.93);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 55px -36px rgba(15,23,42,.6);
+  }
+  .case-card-1 > img, .case-card-2 > img { height: 180px; }
+}
+
+/* Stats: asymmetrical metric composition. */
+.stats-layout {
+  position: relative;
+  overflow: hidden;
+}
+.stats-layout::before {
+  content: "";
+  position: absolute;
+  right: -10rem;
+  bottom: -14rem;
+  width: 30rem;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, oklch(0.86 0.17 90 / .16), transparent 68%);
+  pointer-events: none;
+}
+.stats-layout > div:first-child > div:first-child {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 0;
+}
+.value-card:nth-child(2) { margin-top: 18px; }
+
+/* Steps: 2-card bento + one horizontal feature card. */
+@media (min-width: 768px) {
+  .step-card-0 { grid-column: span 7; }
+  .step-card-1 { grid-column: span 5; margin-top: 2rem; }
+  .step-card-2 {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(260px, .75fr) minmax(0, 1.25fr);
+    align-items: center;
+    column-gap: 2rem;
+    margin-top: 1.25rem;
+  }
+  .step-card-2 > img {
+    grid-row: 1 / span 3;
+    height: 260px;
+    margin-bottom: 0;
+  }
+}
+
+/* Vetting: staggered process cards with a subtle connecting rail. */
+.vetting-layout::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 2rem;
+  bottom: 2rem;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, oklch(0.75 0.19 55 / .38), transparent);
+  display: none;
+}
+@media (min-width: 1024px) {
+  .vetting-layout::before { display: block; }
+  .vetting-card-1, .vetting-card-3 { margin-top: 2.25rem; }
+}
+.vetting-card > div:first-child {
+  box-shadow: 0 8px 30px -12px oklch(0.75 0.19 55 / .55);
+}
+
+/* Services: asymmetric 7/5 bento. */
+@media (min-width: 1024px) {
+  .service-card-0, .service-card-3 { grid-column: span 7; min-height: 230px; }
+  .service-card-1, .service-card-2 { grid-column: span 5; min-height: 230px; }
+  .service-card-0, .service-card-3 {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 1rem;
+    align-content: center;
+  }
+  .service-card-0 > div:first-child,
+  .service-card-3 > div:first-child { grid-row: 1 / span 2; }
+  .service-card-0 > h3,
+  .service-card-3 > h3 { margin-top: .15rem; }
+  .service-card-0 > p,
+  .service-card-3 > p { margin-top: .55rem; max-width: 42rem; }
+}
+
+/* Expertise: one primary role card flanked by two compact cards. */
+.role-swap-in { animation: hrRoleIn .55s cubic-bezier(.16,1,.3,1) both; }
+.expertise-card-0 { animation-delay: .02s; }
+.expertise-card-1 { animation-delay: .08s; }
+.expertise-card-2 { animation-delay: .14s; }
+@media (min-width: 768px) {
+  .expertise-card-0 { grid-column: span 6; min-height: 300px; }
+  .expertise-card-1, .expertise-card-2 { grid-column: span 3; }
+  .expertise-card-0 h3 { font-size: 1.85rem; }
+  .expertise-card-0 p:nth-of-type(2) { font-size: 2.4rem; }
+}
+
+/* FAQ: sticky title column + focused accordion. */
+.faq-title { align-self: start; }
+.faq-panel { align-self: start; }
+.faq-answer { animation: hrFaqIn .28s cubic-bezier(.16,1,.3,1) both; }
+.faq-panel > button {
+  transition: background-color .25s ease, padding-left .25s ease;
+}
+.faq-panel > button:hover {
+  background: oklch(0.98 0.02 80 / .65);
+  padding-left: 1.8rem;
+}
+
+/* Final CTA gets a living glow while retaining the existing colors. */
+.final-cta {
+  position: relative;
+  isolation: isolate;
+}
+.final-cta::before,
+.final-cta::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 999px;
+  filter: blur(8px);
+  pointer-events: none;
+}
+.final-cta::before {
+  width: 18rem;
+  height: 18rem;
+  left: -4rem;
+  top: -7rem;
+  background: oklch(0.86 0.17 90 / .16);
+  animation: hrFloatA 7s ease-in-out infinite;
+}
+.final-cta::after {
+  width: 15rem;
+  height: 15rem;
+  right: -3rem;
+  bottom: -6rem;
+  background: oklch(0.75 0.19 55 / .12);
+  animation: hrFloatB 8s ease-in-out infinite;
+}
+
+/* Buttons feel more tactile without changing their colors. */
+.site-shell a[class*="bg-foreground"],
+.site-shell button[class*="bg-foreground"] {
+  transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease, opacity .25s ease;
+}
+.site-shell a[class*="bg-foreground"]:hover,
+.site-shell button[class*="bg-foreground"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -16px rgba(15,23,42,.65);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portal-card-hover:hover {
+    transform: translateY(-7px) rotate(.15deg);
+  }
+  .talent-card-0:hover { transform: translateY(-5px) rotate(0deg); }
+}
+
+@media (max-width: 767px) {
+  .case-card-0 > img,
+  .case-card-1 > img,
+  .case-card-2 > img { height: 220px; }
+  .timezone-map-card { min-height: 260px; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-main-photo,
+  .float-card-a,
+  .float-card-b,
+  .float-card-c,
+  .float-card-d,
+  .map-ping,
+  .role-swap-in,
+  .talent-card,
+  .final-cta::before,
+  .final-cta::after,
+  .hero-layout::after,
+  .portal-mega {
+    animation: none !important;
+  }
+  .portal-card-hover,
+  .timezone-map-card,
+  .site-shell a,
+  .site-shell button {
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Viewport reveals are applied centrally so every route shares the same motion language. */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(26px) scale(.99);
+  filter: blur(5px);
+  transition:
+    opacity .72s cubic-bezier(.16,1,.3,1) var(--reveal-delay, 0ms),
+    transform .72s cubic-bezier(.16,1,.3,1) var(--reveal-delay, 0ms),
+    filter .72s cubic-bezier(.16,1,.3,1) var(--reveal-delay, 0ms);
+}
+.scroll-reveal.scroll-reveal-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal.scroll-reveal-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+@keyframes hrProgressGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes hrGradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.talent-card .h-full.bg-gradient-brand {
+  transform-origin: left center;
+}
+.talent-card.scroll-reveal-visible .h-full.bg-gradient-brand {
+  animation: hrProgressGrow 1.05s cubic-bezier(.16,1,.3,1) .18s both;
+}
+.portal-card-hover img {
+  transition: transform .65s cubic-bezier(.16,1,.3,1), filter .4s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .portal-card-hover:hover img {
+    transform: scale(1.035);
+  }
+  .portal-search-segment:hover {
+    color: var(--foreground);
+  }
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+}
+.text-gradient-brand {
+  background-size: 180% 180%;
+  animation: hrGradientShift 7s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .talent-card .h-full.bg-gradient-brand,
+  .text-gradient-brand {
+    animation: none !important;
+  }
+}
