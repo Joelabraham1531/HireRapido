@@ -365,6 +365,12 @@ function MegaMenu({
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const [mobileFindOpen, setMobileFindOpen] = useState(false);
+  const [mobileCategory, setMobileCategory] = useState(
+    megaMenuCategories[0].title
+  );
+
   const [showMega, setShowMega] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const megaTimerRef = useState<ReturnType<typeof setTimeout> | null>(null);
@@ -382,6 +388,9 @@ export function Nav() {
     ? routerState.location.pathname.replace(/^\/es(?=\/|$)/, "") || "/"
     : `/es${routerState.location.pathname === "/" ? "" : routerState.location.pathname}`;
   const languageHash = routerState.location.hash?.replace(/^#/, "") || "";
+  const mobileSelectedCategory =
+  megaMenuCategories.find((cat) => cat.title === mobileCategory) ??
+  megaMenuCategories[0];
 
   const openMega = () => {
     if (megaTimerRef[0]) clearTimeout(megaTimerRef[0]);
@@ -478,45 +487,166 @@ export function Nav() {
         </div>
       </div>
 
-      <div className={`mx-auto max-w-7xl overflow-hidden transition-all duration-300 lg:hidden ${mobileOpen ? "max-h-[560px] pt-2" : "max-h-0"}`}>
-        <nav className="portal-nav-shell rounded-2xl p-3">
-          <Link
-            to={localizedPath("/")}
-            hash="talent"
-            onClick={() => setMobileOpen(false)}
-            className="flex items-center rounded-xl px-4 py-3 text-sm font-semibold transition hover:bg-amber-50 hover:text-brand-orange"
-          >
-            {tr("Find a Hire", isSpanish)}
-          </Link>
-          {otherNavLinks.map((link) => (
-            <Link
-              key={link.label}
-              to={localizedPath(link.href.startsWith("/") && link.href.includes("#") ? "/" : link.href)}
-              hash={link.href.includes("#") ? link.href.split("#")[1] : ""}
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center rounded-xl px-4 py-3 text-sm font-semibold transition hover:bg-amber-50 hover:text-brand-orange"
-            >
-              {tr(link.label, isSpanish)}
-            </Link>
-          ))}
-          <div className="mt-2 grid gap-2 border-t border-border pt-3 sm:grid-cols-2">
-            <Link
-              to={localizedPath("/jobs")}
-              onClick={() => setMobileOpen(false)}
-              className="w-full rounded-xl border border-border bg-white px-4 py-3 text-center text-sm font-semibold transition hover:border-brand-orange/40 hover:text-brand-orange"
-            >
-              {tr("Jobs", isSpanish)}
-            </Link>
-            <Link
-              to={localizedPath("/connect")}
-              onClick={() => setMobileOpen(false)}
-              className="w-full rounded-xl bg-foreground px-4 py-3 text-center text-sm font-semibold text-primary-foreground transition hover:opacity-90"
-            >
-              {tr("Hire Talent", isSpanish)}
-            </Link>
-          </div>
-        </nav>
+      <div
+  className={`mx-auto max-w-7xl transition-all duration-300 lg:hidden ${
+    mobileOpen
+      ? "max-h-[80vh] overflow-y-auto pt-2"
+      : "max-h-0 overflow-hidden"
+  }`}
+>
+  <nav className="portal-nav-shell rounded-2xl p-3">
+    {/* FIND A HIRE */}
+    <button
+      type="button"
+      onClick={() => setMobileFindOpen((open) => !open)}
+      className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-semibold transition ${
+        mobileFindOpen
+          ? "bg-amber-50 text-brand-orange"
+          : "hover:bg-amber-50 hover:text-brand-orange"
+      }`}
+    >
+      <span>{tr("Find a Hire", isSpanish)}</span>
+
+      <ChevronDown
+        className={`h-4 w-4 transition-transform duration-300 ${
+          mobileFindOpen ? "rotate-180" : ""
+        }`}
+      />
+    </button>
+
+    {/* MOBILE FIND A HIRE MENU */}
+    <div
+      className={`overflow-hidden transition-all duration-300 ${
+        mobileFindOpen
+          ? "max-h-[1200px] opacity-100"
+          : "max-h-0 opacity-0"
+      }`}
+    >
+      <div className="mt-2 rounded-2xl border border-border bg-white p-3">
+        {/* CATEGORIES */}
+        <div className="flex gap-2 overflow-x-auto pb-3">
+          {megaMenuCategories.map((cat) => {
+            const isActive = mobileCategory === cat.title;
+
+            return (
+              <button
+                key={cat.title}
+                type="button"
+                onClick={() => setMobileCategory(cat.title)}
+                className={`shrink-0 rounded-xl px-3 py-2 text-xs font-bold transition ${
+                  isActive
+                    ? "bg-brand-orange text-white"
+                    : "bg-muted/60 text-foreground hover:bg-brand-orange/10 hover:text-brand-orange"
+                }`}
+              >
+                {tr(cat.title, isSpanish)}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* CATEGORY TITLE */}
+        <div className="border-t border-border pt-4">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-brand-orange">
+            {isSpanish ? "Contratar talento" : "Hire Talent"}
+          </p>
+
+          <h3 className="mt-1 text-base font-extrabold text-foreground">
+            {tr(mobileSelectedCategory.title, isSpanish)}
+          </h3>
+        </div>
+
+        {/* ROLES */}
+        <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2">
+          {[...mobileSelectedCategory.roles]
+            .sort((a, b) =>
+              tr(a, isSpanish).localeCompare(
+                tr(b, isSpanish),
+                isSpanish ? "es" : "en",
+                { sensitivity: "base" }
+              )
+            )
+            .map((role) => {
+              const linkUrl = getRoleLink(role);
+
+              return (
+                <Link
+                  key={role}
+                  to={
+                    isSpanish
+                      ? linkUrl
+                        ? `/es${linkUrl}`
+                        : "/es"
+                      : linkUrl
+                        ? linkUrl
+                        : "/"
+                  }
+                  hash={linkUrl ? "" : "talent"}
+                  onClick={() => {
+                    setMobileOpen(false);
+                    setMobileFindOpen(false);
+                  }}
+                  className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition hover:bg-brand-orange/5 hover:text-brand-orange"
+                >
+                  <span>{tr(role, isSpanish)}</span>
+                  <span className="text-brand-orange">→</span>
+                </Link>
+              );
+            })}
+        </div>
+
+        {/* VIEW ALL */}
+        <Link
+          to={isSpanish ? "/es" : "/"}
+          hash="talent"
+          onClick={() => {
+            setMobileOpen(false);
+            setMobileFindOpen(false);
+          }}
+          className="mt-3 flex items-center justify-between border-t border-border px-3 pt-4 text-sm font-bold text-brand-orange"
+        >
+          {isSpanish ? "Ver todos" : "View all"}
+          <span>→</span>
+        </Link>
       </div>
+    </div>
+
+    {/* EXISTING NAV LINKS */}
+    {otherNavLinks.map((link) => (
+      <Link
+        key={link.label}
+        to={localizedPath(
+          link.href.startsWith("/") && link.href.includes("#")
+            ? "/"
+            : link.href
+        )}
+        hash={link.href.includes("#") ? link.href.split("#")[1] : ""}
+        onClick={() => setMobileOpen(false)}
+        className="flex items-center rounded-xl px-4 py-3 text-sm font-semibold transition hover:bg-amber-50 hover:text-brand-orange"
+      >
+        {tr(link.label, isSpanish)}
+      </Link>
+    ))}
+
+    <div className="mt-2 grid gap-2 border-t border-border pt-3 sm:grid-cols-2">
+      <Link
+        to={localizedPath("/jobs")}
+        onClick={() => setMobileOpen(false)}
+        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-center text-sm font-semibold transition hover:border-brand-orange/40 hover:text-brand-orange"
+      >
+        {tr("Jobs", isSpanish)}
+      </Link>
+
+      <Link
+        to={localizedPath("/connect")}
+        onClick={() => setMobileOpen(false)}
+        className="w-full rounded-xl bg-foreground px-4 py-3 text-center text-sm font-semibold text-primary-foreground transition hover:opacity-90"
+      >
+        {tr("Hire Talent", isSpanish)}
+      </Link>
+    </div>
+  </nav>
+</div>
     </header>
   );
 }
