@@ -426,6 +426,7 @@ export function Nav() {
     className="flex items-center whitespace-nowrap italic leading-none"
     style={{
       fontFamily: '"Arial Black", "Arial", sans-serif',
+      
       fontWeight: 900,
       letterSpacing: "-0.055em",
     }}
